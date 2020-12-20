@@ -1,0 +1,17 @@
+<mat-tab-group>
+    <mat-tab label="Languages">
+        <div *ngFor="let language of languages">
+            <a href="/admin/{{language.name}}">{{language.name}}</a>
+        </div>
+        <input type="text" class="form-control" id="name" required [(ngModel)]="newLanguageName" />
+        <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onCreateLanguage()">Add language</button>
+    </mat-tab>
+    <mat-tab label="Users">
+        <a href="/admin/user/0">User 0</a>
+    </mat-tab>
+    <mat-tab label="Actions">
+        <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onRestoreFromEpisodes()">Restore from epidoes</button>
+        <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onVerifyConsistency()">Verify consistency</button>
+        <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onRebuildSentencesGraph()">Rebuild sentences graph</button>
+    </mat-tab>
+</mat-tab-group>

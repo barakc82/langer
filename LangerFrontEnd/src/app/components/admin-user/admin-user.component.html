@@ -1,0 +1,30 @@
+<button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onClearProgress()">Clear progress</button>
+<mat-tab-group>
+    <mat-tab *ngFor="let userLanguageProgress of userProgress; let languageIndex = index" [label]="userLanguageProgress.languageName">
+        
+        <mat-table class="mat-elevation-z8" [dataSource]="dataSources[languageIndex]">
+
+            <ng-container matColumnDef="index">
+                <mat-header-cell *matHeaderCellDef>Index</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index">{{i+1}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="source">
+                <mat-header-cell *matHeaderCellDef>Source</mat-header-cell>
+                <mat-cell *matCellDef="let row;">
+                    <a href="/admin/word/{{row.wordId}}">{{row.wordValue}}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="translation">
+                <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index">{{row.wordTranslation}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="progress-state">
+                <mat-header-cell *matHeaderCellDef>Progress State</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index">{{row.progressState}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="tableDisplayedColumns">
+            </mat-header-row>
+            <mat-row *matRowDef="let row; columns: tableDisplayedColumns"></mat-row>
+        </mat-table>
+    </mat-tab>
+</mat-tab-group>

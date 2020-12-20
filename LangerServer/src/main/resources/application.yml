@@ -1,0 +1,18 @@
+#default configurations
+langer:
+    data:
+        prefix: default
+        usejpa: false
+    security:
+        crm-client:
+            enabled: true
+            secret: fakesecret-change-in-profile
+        jwt:
+            ttl-hours: 24
+            secret: 0000000000000000000
+
+##### REQ/RES #####
+server:
+    compression:
+        mime-types: 'text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json'
+        min-response-size: 1024

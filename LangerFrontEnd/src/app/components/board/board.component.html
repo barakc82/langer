@@ -1,0 +1,7 @@
+<div *ngIf="card">
+    <div *ngIf="card.translationIntroductionCard">
+        <p>{{card.translationIntroductionCard.source}} = {{card.translationIntroductionCard.translation}}</p>
+        <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onConfirm()">Got it</button>
+    </div>    
+</div>
+

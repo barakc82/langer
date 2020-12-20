@@ -1,0 +1,94 @@
+group = "langer"
+version = "1.0-SNAPSHOT"
+
+ext {
+//    PRODUCTION!!!
+//    appProfile = 'prod'
+//
+
+	//QA!!!
+	appProfile = 'local'
+}
+
+
+// Apply the java-library plugin to add support for Java Library
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+
+
+buildscript {
+	ext {
+		springCloudVersion = '1.2.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		jcenter()
+
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.3.4.RELEASE"
+	}
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://maven.seasar.org/maven2"
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        dependencySubstitution {
+            // The maven property ${osgi.platform} is not handled by Gradle
+            // so we replace the dependency, using the osgi platform from the project settings
+            substitute module('org.eclipse.platform:org.eclipse.swt.${osgi.platform}') with module("org.eclipse.platform:org.eclipse.swt.win32.win32.x86:3.106.3")
+        }
+    }
+}
+
+dependencies 
+{
+	implementation project(":langer-server-api")
+	compile 'org.apache.poi:poi:3.17'
+	compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	compileOnly 'org.projectlombok:lombok:1.18.16'
+	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
+
+	// Feign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.5.RELEASE'
+	implementation 'io.github.openfeign:feign-jackson:11.0'
+
+//	compile group: 'io.github.openfeign', name: 'feign-httpclient', version: '10.4.0'
+//	compile group: 'io.github.openfeign', name: 'feign-okhttp', version: '10.4.0'
+
+	// Spring Cloud
+//	compile "org.springframework.cloud:spring-cloud-core:$springCloudVersion"
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.6.RELEASE'
+	implementation 'org.mapstruct:mapstruct:1.2.0.Final'
+	implementation 'org.modelmapper:modelmapper:2.3.4'
+	runtime 'mysql:mysql-connector-java:+'
+
+    compile group: 'org.eclipse', name: 'jface', version: '3.5.2'
+	compile group: 'org.eclipse.core', name: 'commands', version: '3.3.0-I20070605-0010'
+
+    // Use JUnit test framework
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+	testCompile "org.mockito:mockito-core:+"
+}
+
+ 
+mainClassName = 'com.langer.client.Application'
+archivesBaseName = 'langer'
+
+bootRun {
+	jvmArgs = ["-Dspring.profiles.active=${appProfile}"]
+}

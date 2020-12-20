@@ -1,0 +1,17 @@
+package com.langer.server.api.data.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class TranslationIntroductionCard
+{
+    long    wordTranslationId;
+    String  source;
+    String  translation;
+}

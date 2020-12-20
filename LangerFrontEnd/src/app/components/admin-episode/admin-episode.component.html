@@ -1,0 +1,21 @@
+<div *ngIf="episode">
+
+    <p>ID: {{episode.id}}</p>
+    <p>
+        Language: <a href="/{{language.name}}">{{language.name}}</a>
+    </p>
+    
+    <div>
+        <h2 class="primary">{{episode.title}}</h2>
+    </div>
+
+    <p>{{episode.text}}</p>
+
+    <mat-form-field class="full-width">
+        <textarea matInput placeholder="Episode Text" #textInput></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onUpdateText(textInput.value)">Update</button>
+
+    <button type="button" class="btn btn-default btn" (click)="delete()"><i class="fa fa-trash" aria-hidden="true"></i></button>    
+</div>

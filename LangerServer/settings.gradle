@@ -1,0 +1,2 @@
+include ':langer-server-api'
+project(':langer-server-api').projectDir = file('api')

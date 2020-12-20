@@ -1,0 +1,61 @@
+<!-- Load the jQuery UI styles. -->
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/static/spreadsheets2/client/css/2990608235-waffle_k_ltr.css" />
+
+<!-- Custom styles. -->
+<style>
+
+html { overflow: visible; }
+        #sheets-viewport { overflow: auto; }
+        #sheets-viewport.widget-viewport { overflow: hidden; }
+        .grid-container { overflow: visible; background: white;}
+        .grid-table-container { overflow: visible; }
+        #top-bar {
+          background: url("//ssl.gstatic.com/docs/spreadsheets/publishheader.png") repeat-x bottom;
+          margin: 0;
+          overflow: hidden;
+        }
+        #top-bar {
+          border-bottom: 1px solid #ccc;
+          padding: 6px 6px 0;
+        }
+        #doc-title { padding-bottom: 5px; }
+        #doc-title .name { font-size: 15px; }
+        #sheet-menu {
+          font-size: 13px;
+          margin: 6px 0 0;
+          padding: 0 0 5px;
+        }
+        #sheet-menu li {
+          display: inline;
+          list-style-type: none;
+          margin: 0;
+          padding: 5px 8px;
+        }
+        #sheet-menu li.active {
+          background-color: #fff;
+          font-weight: bold;
+          border: 1px solid #999;
+        }
+        #top-bar #sheet-menu li.active {
+          border-bottom: 0;
+        }
+        #sheet-menu a, #sheet-menu a:visited { color: #07c; }
+        #footer {
+          background: #f0f0f0;
+          border-top: 1px #ccc solid;
+          border-bottom: 1px #ccc solid;
+          font-size: 13;
+          padding: 10px 10px;
+        }
+        .dash {
+          padding: 0 6px;
+        }
+		.ritz .waffle a { color: inherit; }
+		.ritz .waffle .s0{border-bottom:1px SOLID #000000;border-left:1px SOLID #000000;text-align:left;font-weight:bold;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:10pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;}
+		.ritz .waffle .s2{border-bottom:1px SOLID #000000;text-align:left;font-weight:bold;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:10pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;}
+		.ritz .waffle .s4{border-bottom:1px SOLID #000000;border-left:1px SOLID #000000;text-align:center;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:10pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;}
+		.ritz .waffle .s1{border-bottom:1px SOLID #000000;border-left:1px SOLID #000000;text-align:left;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:10pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;}
+		.ritz .waffle .s3{border-bottom:1px SOLID #000000;border-left:1px SOLID #000000;text-align:right;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:11pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;}
+		.ritz .waffle .s5{border-bottom:1px SOLID #000000;text-align:left;color:#000000;background-color:#ffffff;font-family:'Arial';font-size:11pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:2px 3px 2px 3px;
+</style>

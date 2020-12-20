@@ -1,0 +1,3 @@
+rootProject.name='LangerPopulator'
+include ':langer-server-api'
+project(':langer-server-api').projectDir = file('../LangerServer/api')

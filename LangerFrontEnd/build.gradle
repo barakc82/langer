@@ -1,0 +1,137 @@
+group = "swingit"
+version = "1.0-SNAPSHOT"
+
+ext {
+//    PRODUCTION!!!
+//    gaeProject = 'hll-registration'
+//
+
+    //QA!!!
+    gaeProject = 'hll-registration-2'
+}
+
+apply plugin: 'java'                              // standard Java tasks
+apply plugin: 'war'                               // standard Web Archive plugin
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.google.cloud.tools.appengine'  // App Engine tasks
+
+sourceCompatibility = 1.8               // App Engine Flexible uses Java 8
+targetCompatibility = 1.8               // App Engine Flexible uses Java 8
+
+ext{
+    set('springCloudVersion', 'Greenwich.RELEASE')
+}
+
+buildscript {    // Configuration for building
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+    }
+    repositories {
+        jcenter()    // Bintray's repository - a fast Maven Central mirror & more
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.0.1'    // latest App Engine Gradle tasks
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.2.RELEASE"
+    }
+}
+
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE'
+    }
+}
+
+repositories {   // repositories for Jar's you access in your code
+    maven { url 'https://repo.spring.io/milestone' }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository (if needed)
+    }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    implementation project(":crm-server-api")
+    implementation project(":SwingItCommon")
+    implementation project(":SwingItCrm")
+
+    //region Tools
+    implementation 'org.projectlombok:lombok'
+    //compile 'com.google.g:guava:+'
+    implementation 'org.modelmapper:modelmapper:2.3.4'
+    implementation 'io.springfox:springfox-swagger2:+'
+    implementation 'io.springfox:springfox-swagger-ui:+'
+    //endregion
+
+    //region Data and Entities
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtime 'mysql:mysql-connector-java:+'
+    //compile 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.14'
+    //endregion
+
+    //region Spring Web
+    def exclusions = {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-json'
+    }
+
+    implementation 'org.springframework.boot:spring-boot-starter-web' , exclusions
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    //endregion
+
+    //region GCP and GAE
+    implementation group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.76'
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-logging'
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starters', version: '1.1.0.RELEASE', ext: 'pom'
+
+    //endregion
+
+    implementation 'jstl:jstl:1.2'
+
+   // implementation group: 'com.opencsv', name: 'opencsv', version: '4.1'
+
+    // Feign jar
+    compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compile group: 'io.github.openfeign', name: 'feign-jackson', version: '10.1.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.google.truth:truth:0.33'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'
+
+    testCompile "com.h2database:h2"
+    compileTestJava.dependsOn tasks.getByPath(':SwingItCommon:testClasses') //TOOD yshabi check if this is needed
+    testCompile project(':SwingItCommon').sourceSets.test.output
+    compileTestJava.dependsOn tasks.getByPath(':SwingItCrm:testClasses')
+    testCompile project(':SwingItCrm').sourceSets.test.output
+}
+
+// Always run unit tests
+//appengineDeploy.dependsOn test
+//appengineStage.dependsOn test
+
+appengine {  // App Engine tasks configuration
+    deploy {   // deploy configuration
+        projectId = gaeProject
+        stopPreviousVersion = true  // default - stop the current version
+        promote = true              // default - & make this the current version
+        version = 'crm-server-2-0-1'
+    }
+    run
+            {
+                port = 8080
+            }
+
+//    stage{
+//        enableJarClasses = true
+//    }
+}
+group 'swingitcrm'
+version '1.0-SNAPSHOT'
+

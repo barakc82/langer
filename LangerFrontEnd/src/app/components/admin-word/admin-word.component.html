@@ -1,0 +1,36 @@
+<div *ngIf="word">
+    <h2>{{word.value}}</h2>
+    <p>Translations</p>
+
+    <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+        
+        <ng-container matColumnDef="translation">
+            <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
+            <mat-cell *matCellDef="let row;">{{row.translation}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+            <mat-cell *matCellDef="let row;">
+                <button type="button" class="btn btn-default btn" (click)="deleteWordTranslation(row)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onAddTranslation()">Add translation</button>
+    <input type="text" class="form-control" id="name" required [(ngModel)]="newTranslation"/>
+
+    <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="word.type" (ngModelChange)="typeSelected($event)">
+            <mat-option *ngFor="let type of ['Name', 'NA']" [value]="type">
+                {{type}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button type="button" class="btn btn-default btn" (click)="deleteWord()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+</div>

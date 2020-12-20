@@ -1,0 +1,56 @@
+<div *ngIf="sentence">
+    <h2>{{sentence.text}}</h2>
+
+    <p>Translation: {{sentence.translation}}</p>
+    <p>ID: {{sentence.id}}</p>
+    <p>
+        Language: <a href="/admin/{{languageName}}">{{languageName}}</a>
+    </p>
+    <p>
+        Resource: <a href="/admin/{{languageName}}/{{resourceTitle}}">{{resourceTitle}}</a>
+    </p>
+    <p>
+        Episode: <a href="/admin/{{languageName}}/{{resourceTitle}}/{{episodeTitle}}">{{episodeTitle}}</a>
+    </p>
+    <p>
+        Paragraph: <a href="/admin/{{languageName}}/{{resourceTitle}}/{{episodeTitle}}/{{paragraphIndex}}">{{paragraphIndex}}</a>
+    </p>
+    <p>
+        Sentence Index: {{sentence.sentenceIndex}}
+    </p>
+
+    <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+
+        <ng-container matColumnDef="index">
+            <mat-header-cell *matHeaderCellDef>Index</mat-header-cell>
+            <mat-cell *matCellDef="let row; let i = index">{{i+1}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="word">
+            <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
+            <mat-cell *matCellDef="let row;">
+                <a href="/admin/word/{{row.word.id}}">{{row.word.value}}</a>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="word-translation">
+            <mat-header-cell *matHeaderCellDef>Word Translation</mat-header-cell>
+            <mat-cell *matCellDef="let row; let i = index">
+                <mat-form-field>
+                    <mat-select [(ngModel)]="selectedTranslations[i]" (ngModelChange)="translationSelected(row.id, i, $event)">
+                        <mat-option *ngFor="let possibleTranslation of row.possibleTranslations" [value]="possibleTranslation">
+                            {{possibleTranslation.translation}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onUpdateTranslation()">Update translation</button>
+    <input type="text" id="name" [(ngModel)]="sentenceTranslation"/>
+
+    <mat-checkbox [(ngModel)]="sentence.shouldBeIgnored" (change)="onUpdateShouldBeIgnored()">Should be ignored</mat-checkbox>
+
+</div>

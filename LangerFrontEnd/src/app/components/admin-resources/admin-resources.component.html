@@ -1,0 +1,18 @@
+<div *ngFor="let resource of resources">
+    <a href="/{{language.name}}/{{encodeUri(resource.title)}}">{{resource.title}}</a>
+</div>
+
+<form class="resource-form" [formGroup]="form">
+    
+    <mat-form-field>
+        <mat-label>Resource Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title" required>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <textarea matInput placeholder="Resource Text" formControlName="text" required></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onUpload()">Upload</button>
+
+</form>

@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    include:
+      - cloudsql
+
+langer:
+    data:
+        prefix: prod
+        usejpa: false
+    security:
+        crm-client:
+            enabled: true
+            secret: 002a493c3f2b30b8d57566731fc562ae
+
+logging:
+  config: 'classpath:logback-web.xml'

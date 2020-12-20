@@ -1,0 +1,19 @@
+<div *ngIf="language">
+
+    <div>
+        <h2 class="primary">{{language.name}}</h2>
+    </div>
+
+    <mat-tab-group>
+        <mat-tab label="Resources">
+            <app-admin-resources [language]="language"></app-admin-resources>
+        </mat-tab>
+        <mat-tab label="Corpus Statistics - Words">
+            <app-admin-corpus-statistics-words [language]="language"></app-admin-corpus-statistics-words>
+        </mat-tab>
+        <mat-tab label="Corpus Statistics - Sentences">
+            <app-admin-corpus-statistics-sentences [language]="language"></app-admin-corpus-statistics-sentences>
+        </mat-tab>
+    </mat-tab-group>
+    
+</div>

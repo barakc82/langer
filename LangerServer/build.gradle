@@ -1,0 +1,122 @@
+buildscript {
+    ext {
+        springBootVersion = '2.3.4.RELEASE'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.0'
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.10.RELEASE"
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.59'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.google.cloud.tools.appengine'
+apply plugin: 'org.springframework.boot'
+
+group = "langer"
+version = "1.0-SNAPSHOT"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+//    PRODUCTION!!!
+    gaeProject = 'langer'
+
+
+    //QA!!!
+//    gaeProject = 'hll-registration-2'
+}
+
+repositories {
+    maven { url 'https://repo.spring.io/milestone' }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    mavenCentral()
+    jcenter()
+}
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8'
+    }
+}
+dependencies {
+
+    implementation project(":langer-server-api")
+
+    //region Tools
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    implementation 'org.modelmapper:modelmapper:2.3.4'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    //endregion
+
+
+    //region Data and Entities
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtime 'mysql:mysql-connector-java:+'
+    //endregion
+
+
+    //region Spring Web
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    def exclusions = {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-json'
+    }
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web' , exclusions
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    //endregion
+
+
+    //region GCP and GAE
+    implementation group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.82'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-logging'
+    //endregion
+
+
+    //region Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.1'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.11.1'
+    runtime 'io.jsonwebtoken:jjwt-jackson:0.11.1'
+    //endregion
+
+
+    //region Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testCompile 'com.google.truth:truth:0.33'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testRuntime "com.h2database:h2"
+    testCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    //endregion
+}
+
+appengineDeploy.dependsOn test
+appengineStage.dependsOn test
+
+appengine {
+    deploy {
+        projectId = gaeProject
+        stopPreviousVersion = true  // default - stop the current version
+        promote = true              // default - & make this the current version
+        version = 'crm-server-2-0-2'
+    }
+    run {
+        port = 8080
+    }
+}

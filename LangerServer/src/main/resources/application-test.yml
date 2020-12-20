@@ -1,0 +1,12 @@
+swingit:
+    data:
+        prefix: test
+        usejpa: false
+spring:
+    datasource:
+        username: sa
+        password:
+        url: jdbc:h2:mem:testdb
+        driverClassName: org.h2.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect

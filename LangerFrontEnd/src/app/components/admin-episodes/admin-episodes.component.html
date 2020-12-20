@@ -1,0 +1,22 @@
+<p>
+    Language: <a href="/{{language.name}}">{{language.name}}</a>
+</p>
+
+<div *ngFor="let episode of episodes">
+    <a href="/{{language.name}}/{{encodeUri(resource.title)}}/{{encodeUri(episode.title)}}/">{{episode.title}}</a>
+</div>
+
+<form class="episode-form" [formGroup]="form">
+    
+    <mat-form-field>
+        <mat-label>Episode Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title" required>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <textarea matInput placeholder="Episode Text" formControlName="text" required></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="onUpload()">Upload</button>
+
+</form>

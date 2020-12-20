@@ -1,0 +1,27 @@
+spring:
+    datasource:
+        username: root
+        password: langer
+        driver-class-name: 'com.mysql.cj.jdbc.Driver'
+        hikari:
+            minimum-idle: 3
+            maximum-pool-size: 15
+            idle-timeout: 60000
+        url: "jdbc:mysql://localhost:3306/langer?
+                      useUnicode=true&
+                      useJDBCCompliantTimezoneShift=true&
+                      useSSL=true&
+                      requireSSL=true&
+                      SSLMode=VERIFY_CA&
+                      characterEncoding=UTF-8&
+                      useLegacyDatetimeCode=false&
+                      trustCertificateKeyStorePassword=langer&
+                      clientCertificateKeyStorePassword=langer&
+                      serverTimezone=UTC"
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect

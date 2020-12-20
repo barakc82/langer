@@ -1,0 +1,15 @@
+<div *ngIf="resource">
+
+    <div>
+        <h2 class="primary">{{resource.title}}</h2>
+    </div>
+
+    <mat-tab-group>
+        <mat-tab label="Episodes">
+            <app-admin-episodes [language]="language" [resource]="resource"></app-admin-episodes>
+        </mat-tab>
+    </mat-tab-group>
+    
+    <button type="button" class="btn btn-default btn" (click)="delete()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    
+</div>

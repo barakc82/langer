@@ -1,0 +1,46 @@
+These steps only need to be done when changing SQL server side certificates, the current certificates are good till Aug 28, 2029, 5:05:24 PM...
+
+Connect from app to Cloud SQL with SSL:
+
+
+1. Generate certificates:
+
+	- Go to https://console.cloud.google.com/sql/instances/swingitsql/connections?project=hll-registration .
+
+	- Choose "Connection" tab.
+
+	- Click on "Create a client Certificate
+
+	- Download all 3 certs under the same location:
+
+		08/31/2019  05:05 PM             1,228 client-cert.pem
+		08/31/2019  05:05 PM             1,678 client-key.pem
+		08/31/2019  05:05 PM             1,272 server-ca.pem
+
+
+
+2. Create trust store:
+
+	- In command line, move to the directory of the downloaded certs.
+
+	- Execute: "keytool -importcert -noprompt -trustcacerts -keystore truststore.jks -storepass swingit -alias googlecloudsqlservercacert -file server-ca.pem"
+
+	- Now you have a new file "truststore.jks".
+
+
+3. Create key store:
+
+	- As before, in the same directory:
+
+	- Execute: "openssl pkcs12 -export -in client-cert.pem -inkey client-key.pem -out client.p12"
+	  enter a password...
+
+	- Execute: "keytool -importkeystore -srckeystore client.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS"
+	  enter the same password....
+
+	- Now you have a new file "keystore.jks".
+
+
+4. Copy keystore.jks and truststore.jks to the webapp/WEB-INF/jks/
+
+5. Done.
